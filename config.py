@@ -17,6 +17,7 @@ def get_config():
         "n_layers": 4,
         "n_mha": 4,
         "d_ff": 512,
+        "dev_mode": True,
         "datasource": 'opus_books',
         "lang_src": "en",
         "lang_tgt": "it",

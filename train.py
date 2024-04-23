@@ -179,12 +179,23 @@ def get_ds(config):
         f"{config['datasource']}",
         f"{config['lang_src']}-{config['lang_tgt']}",
         split="train",
+        cache_dir="C:\\Users\smridha\\.cache\\huggingface\\datasets",
     )
     end = datetime.now()
     elapsed = end - start
     print(
         f"Data Loading Took: {elapsed.days} days, {elapsed.seconds // 3600} hours, {elapsed.seconds // 60 % 60} minutes, {elapsed.seconds % 60} seconds"
     )
+
+    
+    if config["dev_mode"]:
+        # take 20% of the data to test the pipeline E2E
+        print(f"running in dev_mode. Take 10% of the original data to test the E2E pipeline quickly.")
+        dev_ds_size =    int(0.1 * len(ds_raw))     
+        non_dev_ds_size = len(ds_raw) - dev_ds_size
+        dev_ds_raw, non_dev_ds_raw = random_split(ds_raw, [dev_ds_size, non_dev_ds_size])
+        ds_raw_og = ds_raw
+        ds_raw = dev_ds_raw
 
     # Build tokenizers
     print(f" Build Tokenizer ...")
